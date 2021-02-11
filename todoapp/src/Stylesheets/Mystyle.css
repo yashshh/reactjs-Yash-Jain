@@ -1,0 +1,15 @@
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin-left: 30px;
+  }
+
+  input {
+      margin-right: 10px;
+  }
