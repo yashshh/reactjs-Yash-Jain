@@ -1,0 +1,19 @@
+.mystyle1{
+    padding-left: 5vw;
+    border-right: 6px solid green;
+    height: 400px;
+    float: left; 
+    width: 25vw
+}
+.vl { 
+    padding-left: 2vw;
+    float: left; 
+    width: 25vw
+  }
+  .st2{
+    padding-left: 2vw;
+    border-right: 6px solid green;
+    height: 400px;
+    float: left;
+     width: 25vw
+  }

@@ -1,0 +1,6 @@
+input[type=text],textarea{
+    width:50%
+}
+input[type=submit]{
+    margin-left:110px
+}
