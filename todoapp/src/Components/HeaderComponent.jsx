@@ -5,7 +5,13 @@ import AuthenticationService from './AuthenticationService.js';
 import { withRouter } from 'react-router';
 
 class HeaderComponent extends Component {
-    render() {
+    render(props) {
+        // console.log("header")
+        // var hashas=[]
+        // hashas=this.props.location.state
+        // console.log(this.props.location.state)
+        // console.log('hashas')
+        // console.log(hashas.haslogin)
         let userLoggedin = AuthenticationService.isUserLoggedin()
         return(
             <header>

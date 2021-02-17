@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,10 @@ public class WatchListController {
 	@GetMapping("/{userId}")
 	public List<CompanyWatchList> getWatchListByUser(@PathVariable int userId){
 		return watchListService.getWatchListByUser(userId);
+	}
+	
+	@DeleteMapping("/{companyId}/{userId}")
+	public void deleteWatchListByUser(@PathVariable int companyId, @PathVariable int userId){
+		watchListService.deleteWatchListByUser(companyId,userId);
 	}
 }

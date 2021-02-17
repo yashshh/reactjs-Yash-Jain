@@ -1,27 +1,70 @@
 import React,{Component} from 'react'
+import AuthenticationService from './AuthenticationService.js';
+import CompanyListService from '../api/CompanyListService.js'
 import '../Stylesheets/Mystyle.css'
+
 
 class PerformanceComponent extends Component {
     constructor(props) {
         super(props);
         this.state={
+            company1:"",
+            company2:"",
+            companiesId:[],
             click:false,
-            performance:[
-                {date:"01/02/2020",company:"A",price:"100"},
-                {date:"01/02/2020",company:"B",price:"100"},
-                {date:"03/02/2020",company:"A",price:"100"},
-                {date:"03/02/2020",company:"B",price:"100"},
-                {date:"05/02/2020",company:"A",price:"100"},
-                {date:"05/02/2020",company:"B",price:"100"}
-            ]
+            date1:null,
+            date2:null,
+            performancestocks:[],
+            // performance:[
+            //     {date:"01/02/2020",company:"A",price:"100"},
+            //     {date:"01/02/2020",company:"B",price:"100"},
+            //     {date:"03/02/2020",company:"A",price:"100"},
+            //     {date:"03/02/2020",company:"B",price:"100"},
+            //     {date:"05/02/2020",company:"A",price:"100"},
+            //     {date:"05/02/2020",company:"B",price:"100"}
+            // ]
+            performance:[]
         }
     }
 
+    componentDidMount() {
+        var companiesIdList=[]
+        CompanyListService.getCompanyList()
+        .then(response=>{console.log(response)
+            response.data.map(
+                (company)=>{
+                    companiesIdList.push(company.companyId)
+                }
+            )
+            this.setState({companiesId:companiesIdList})
+        })
+        .catch()
+    }
+
+    handleChange=(event)=>{
+        this.setState({
+            [event.target.name]:event.target.value
+        })
+    }
+
     handleClick=()=>{
+        
+        console.log("helloworld")
+        console.log(this.state)
+        CompanyListService.getPerformanceList(this.state.company1,this.state.company2,this.state.date1,this.state.date2)
+        .then(response=>{
+            console.log(response.data)
+            this.setState({performance:response.data}) 
+            console.log("performance")
+            console.log(this.state.performance) 
+        })
+        .catch()
+
         this.setState(
             {
                 click:true
             }
+
         )
     }
 
@@ -39,24 +82,34 @@ class PerformanceComponent extends Component {
                     <div className="col">
                         <div className="form-outline">
                             <label for="sel1">Select Company 1*:</label>
-                            <select className="form-control" id="sel1">
-                            <option disabled selected value> choose...</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                            <select className="form-control" name="company1" id="sel1" onChange={this.handleChange}>
+                            <option disabled selected value=""> choose...</option>
+                            {
+                                this.state.companiesId.map(
+                                    (cid,index) => {
+                                        return(
+                                            <option key={index} value={cid}>{cid}</option>
+                                        )
+                                    }
+                                )
+                            }
                         </select>
                         </div>
                     </div>
                     <div className="col">
                         <div className="form-outline">
                             <label for="sel2">Select Company 2*:</label>
-                            <select className="form-control" id="sel2">
+                            <select className="form-control" name="company2" id="sel2" onChange={this.handleChange}>
                                 <option disabled selected value>choose...</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
+                                {
+                                this.state.companiesId.map(
+                                    (cid,index) => {
+                                        return(
+                                            <option key={index} value={cid}>{cid}</option>
+                                        )
+                                    }
+                                )
+                            }
                             </select>
                         </div>
                     </div>
@@ -64,12 +117,12 @@ class PerformanceComponent extends Component {
                 <div className="row g-1">
                     <div className="col">
                         <div className="form-outline">
-                            From Date* <input type="date" className="form-control" id="fromdate" name="fromdate"/>
+                            From Date* <input type="date" onChange={this.handleChange} className="form-control"  id="fromdate" name="date1"/>
                         </div>
                     </div>
                     <div className="col">
                         <div className="form-outline">
-                            To Date* <input type="date" className="form-control" id="todate" name="todate"/>
+                            To Date* <input type="date" onChange={this.handleChange} className="form-control"  id="todate" name="date2"/>
                         </div>
                    </div>
                 </div>
@@ -108,8 +161,8 @@ class PerformanceComponent extends Component {
                                 <tr key={index}>
                                     {/* <td>{todo.id}</td> */}
                                     {x==0?<td><b>{j}</b></td>:<td></td>}
-                                    <td>{performance.company}</td>
-                                    <td>${performance.price}</td>
+                                    <td>{performance.company.companyName}</td>
+                                    <td>${performance.stockPrice}</td>
                                 </tr>
                                 
                             )

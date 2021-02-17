@@ -33,4 +33,11 @@ public class WatchListServiceImpl implements WatchListService{
 		return watchListRepository.getWatchListByUser(userId);
 	}
 
+	@Transactional
+	@Override
+	public void deleteWatchListByUser(int companyId,int userId) {
+		watchListRepository.deleteWatchListByUser(companyId,userId);
+		
+	}
+
 }

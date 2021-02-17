@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -46,6 +47,13 @@ public class WatchListRepositoryImpl implements WatchListRepository{
 		TypedQuery<CompanyWatchList> query=em.createQuery("from CompanyWatchList where user.id=:userId",CompanyWatchList.class);
 		query.setParameter("userId", userId);
 		return query.getResultList();
+	}
+	@Override
+	public void deleteWatchListByUser(int companyId,int userId) {
+		Query query=em.createQuery("delete from CompanyWatchList where company.companyId=:companyId and user.id=:userId");
+		query.setParameter("companyId", companyId);
+		query.setParameter("userId", userId);
+		query.executeUpdate();
 	}
 	
 	

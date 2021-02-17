@@ -4,6 +4,7 @@ import {BrowserRouter as Router,Link} from 'react-router-dom'
 
 function WelcomePage(props) {
     return(
+        
         <div>
             <h1>Welcome</h1>
             <div className="container">

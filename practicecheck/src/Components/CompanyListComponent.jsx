@@ -50,9 +50,18 @@ class CompanyListComponent extends Component {
             
         }
     }
-    handleClick = () => {
-        alert("successfully added to the watchlist.")
+    handleClick = (companyid) => {
+        var userid=AuthenticationService.getUserIdLoggedin()
+        CompanyListService.addWatchList({userId:userid,companyId:companyid})
+        .then(response=>
+            console.log(response),
+            alert("successfully added to the watchlist.")
+            )
+        
     }
+    // handleClick = () => {
+    //     alert("successfully added to the watchlist.")
+    // }
 
     componentDidMount() {
         CompanyListService.getCompanyList()
@@ -72,10 +81,10 @@ class CompanyListComponent extends Component {
                         this.state.companyList.map(
                             (company) => {
                                 return(
-                                    <CompanyDetailsComponent name={company.companyName} details={company.description} price={company.currentStockPrice}>
-                                        {flag && <button className={"btn btn-primary"} onClick={this.handleClick}>
+                                    <CompanyDetailsComponent name={company.companyName} details={company.description} price={company.currentStockPrice} className={"btn btn-primary"} onClick={()=>this.handleClick(company.companyId)}>
+                                        {/* {flag && <button className={"btn btn-primary"} onClick={this.handleClick}>
                                                 Watch
-                                            </button>}
+                                            </button>} */}Watch
                                     </CompanyDetailsComponent>
                                 )
                             }

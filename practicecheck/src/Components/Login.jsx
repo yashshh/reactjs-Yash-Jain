@@ -1,13 +1,14 @@
 import React,{Component} from 'react'
+import CompanyListService from '../api/CompanyListService.js';
 //import '../Stylesheets/Mystyle.css'
 import AuthenticationService from './AuthenticationService.js'
-
+const qs = require('qs')
 class Login extends Component {
 
     constructor() {
         super();
         this.state = {
-            username : "helloworld",
+            username : "a@helloworld.com",
             upassword : '',
             hasloginfailed:false,
             showsuccess:false,
@@ -15,21 +16,28 @@ class Login extends Component {
         }
     }
 
-    handleClick = () => {
-        if(this.state.username==="" || this.state.upassword===""){
-            this.setState({
-                emptyvalue:true
-            })
+    handleClick=()=>{ 
+        let user={
+            email:this.state.username,
+            password:this.state.upassword
         }
-        if(this.state.username==="helloworld" && this.state.upassword==="helloworld") {
-            AuthenticationService.registerSuccessfulLogin(this.state.username,this.state.upassword)
+        console.log(user)
+        if(this.state.username==="" || this.state.upassword===""){
+                    this.setState({
+                        emptyvalue:true
+                    })
+        }
+        CompanyListService.findUsers(user)
+            .then(response=>this.login(response)
+            ).catch(error=>{console.log(error)
+                this.setState({hasloginfailed:true,showsuccess:false})})
+
+    }
+    login(response) {
+            console.log(response)
+            AuthenticationService.registerSuccessfulLogin(response.data.id,response.data.email)
             this.setState({hasloginfailed:false,showsuccess:true})
             this.props.history.push("/companies")
-        }
-        else {
-            this.setState({hasloginfailed:true,showsuccess:false})
-        }
-        
     }
 
     handleChange = (event) => {

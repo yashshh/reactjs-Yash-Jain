@@ -20,7 +20,7 @@ class Login extends Component {
         if(this.state.username==="helloworld" && this.state.upassword==="helloworld") {
             AuthenticationService.registerSuccessfulLogin(this.state.username,this.state.upassword)
             this.setState({hasloginfailed:false,showsuccess:true})
-            this.props.history.push(`/WelcomePage/${this.state.username}`)
+            this.props.history.push({pathname:`/WelcomePage/${this.state.username}`,state:{haslogin:true}})
         }
         else {
             this.setState({hasloginfailed:true,showsuccess:false})

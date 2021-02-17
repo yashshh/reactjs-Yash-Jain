@@ -10,4 +10,5 @@ public interface WatchListRepository {
 	void StoreWatchList(WatchListRequest request);
 	List<CompanyWatchList> getWatchList();
 	List<CompanyWatchList> getWatchListByUser(int userId);
+	void deleteWatchListByUser(int companyId,int userId);
 }
